@@ -11,10 +11,11 @@ fun little hardware devices that integrate with Claude.
 > **[REFERENCE.md](REFERENCE.md)** for the wire protocol: Nordic UART
 > Service UUIDs, JSON schemas, and the folder push transport.
 
-As an example, we built a desk pet on ESP32 that lives off permission
-approvals and interaction with Claude. It sleeps when nothing's happening,
-wakes when sessions start, gets visibly impatient when an approval prompt is
-waiting, and lets you approve or deny right from the device.
+As an example, this is a desk pet that runs on M5Stack stick devices — the
+ESP32 **M5StickC Plus** and the ESP32-S3 **M5StickS3**. It lives off
+permission approvals and interaction with Claude: it sleeps when nothing's
+happening, wakes when sessions start, gets visibly impatient when an approval
+prompt is waiting, and lets you approve or deny right from the device.
 
 <p align="center">
   <img src="docs/device.jpg" alt="M5StickC Plus running the buddy firmware" width="500">
@@ -35,6 +36,10 @@ The upstream firmware depended on the board-specific `M5StickCPlus` library,
 which doesn't support the ESP32-S3. Migrating to M5Unified adds M5StickS3
 support while keeping the original StickC Plus working — see
 [What this fork changes](#what-this-fork-changes).
+
+<p align="center">
+  <img src="docs/sticks3.png" alt="M5Stack M5StickS3 (ESP32-S3)" width="380">
+</p>
 
 ## What this fork changes
 
