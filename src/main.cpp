@@ -735,13 +735,13 @@ static void drawApproval() {
   // number of lines so there's never wasted space.
   const char* hint = tama.promptHint;
   int hlen = strlen(hint);
-  const int HCOLS = 11, HL = 18;        // glyphs/line and line height at size 2
+  const int HCOLS = 17, HL = 11;        // glyphs/line and line height at size 1.25
   int rows = (hlen + HCOLS - 1) / HCOLS;
   if (rows > 7) rows = 7;
 
   int toolLen = strlen(tama.promptTool);
-  bool bigTool = toolLen <= 11;
-  int toolH = bigTool ? 22 : 12;
+  bool bigTool = toolLen <= 14;         // fits one line at size 1.5
+  int toolH = bigTool ? 15 : 11;
 
   // header(13) + tool + hint rows + button row(12) + paddings
   int area = 4 + 13 + toolH + rows * HL + 6 + 12 + 4;
@@ -765,15 +765,15 @@ static void drawApproval() {
   spr.printf("approve? %lus", (unsigned long)waited);
   y += 13;
 
-  // Tool name (big when it fits the width).
+  // Tool name as a title (size 1.5), slightly larger than the hint.
   spr.setTextColor(p.text, p.bg);
-  spr.setTextSize(bigTool ? 2 : 1);
+  spr.setTextSize(bigTool ? 1.5f : 1.0f);
   spr.setCursor(4, y);
   spr.print(tama.promptTool);
   y += toolH;
 
-  // Hint, big (size 2), fixed 11-char chunks down to the button row.
-  spr.setTextSize(2);
+  // Hint at size 1.25 (smaller than the tool title), fixed-width chunks.
+  spr.setTextSize(1.25f);
   spr.setTextColor(p.text, p.bg);
   for (int off = 0; off < hlen && y <= botY - HL + 2; off += HCOLS) {
     char seg[HCOLS + 1];
