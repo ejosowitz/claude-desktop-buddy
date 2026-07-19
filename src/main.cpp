@@ -89,7 +89,7 @@ uint32_t promptArrivedMs = 0;
 // Face-down = Z-axis dominant and negative. Debounced so a toss doesn't count.
 static bool isFaceDown() {
   float ax, ay, az;
-  M5.Imu.getAccel(&ax, &ay, &az);
+  compatGetAccel(&ax, &ay, &az);
   return az < -0.7f && fabsf(ax) < 0.4f && fabsf(ay) < 0.4f;
 }
 
@@ -362,7 +362,7 @@ static void clockRefreshRtc() {
 
 static void clockUpdateOrient() {
   float ax, ay, az;
-  M5.Imu.getAccel(&ax, &ay, &az);
+  compatGetAccel(&ax, &ay, &az);
   uint8_t lock = settings().clockRot;
   if (lock == 1) { clockOrient = 0; return; }
   if (lock == 2) {
@@ -490,7 +490,7 @@ void triggerOneShot(PersonaState s, uint32_t durMs) {
 
 bool checkShake() {
   float ax, ay, az;
-  M5.Imu.getAccel(&ax, &ay, &az);
+  compatGetAccel(&ax, &ay, &az);
   float mag = sqrtf(ax*ax + ay*ay + az*az);
   float delta = fabsf(mag - accelBaseline);
   accelBaseline = accelBaseline * 0.95f + mag * 0.05f;

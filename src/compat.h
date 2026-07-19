@@ -89,6 +89,28 @@ static inline bool compatOnUsb() {
   return (int)M5.Power.isCharging() != 0;   // charging/unknown => assume USB
 }
 
+// --- IMU axis alignment -----------------------------------------------------
+// M5Unified aligns each board's raw IMU axes to a common display-relative
+// frame, but only for boards in its fix-up table (IMU_Class.cpp). The StickC
+// Plus's MPU6886 needs no fix-up and this code was written against that native
+// frame. The StickS3's BMI270 is mounted rotated +90° about the screen normal
+// and is NOT in M5Unified's table, so its raw axes come through turned: what
+// the code expects on X arrives on Y and vice-versa. Undo that here so the
+// shared orientation / face-down / shake logic sees the StickC Plus frame.
+//   measured: flat=+Z, upright(USB down)=-rawX, on-side=±rawY
+//   => X' = +rawY,  Y' = -rawX,  Z' = +rawZ   (a pure +90° rotation about Z)
+static inline void compatGetAccel(float* ax, float* ay, float* az) {
+#if defined(BOARD_STICKS3)
+  float rx, ry, rz;
+  M5.Imu.getAccel(&rx, &ry, &rz);
+  *ax =  ry;
+  *ay = -rx;
+  *az =  rz;
+#else
+  M5.Imu.getAccel(ax, ay, az);
+#endif
+}
+
 // --- Onboard LED ------------------------------------------------------------
 // StickC Plus: red LED on GPIO10, active-low. StickS3 has no user LED (GPIO10
 // is Grove Port-A there), so the LED calls compile to no-ops.
