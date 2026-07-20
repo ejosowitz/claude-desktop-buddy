@@ -202,6 +202,27 @@ If you're iterating on a character and would rather skip the BLE round-trip,
 `tools/flash_character.py characters/bufo` stages it into `data/` and runs
 `pio run -t uploadfs` directly over USB.
 
+### Importing pets from OpenPets
+
+`tools/import_openpet.py` turns any pet from the
+[OpenPets](https://openpets.dev) gallery into a character pack in one shot —
+resolve → download → slice → prep, with an optional `--flash`:
+
+```bash
+python3 tools/import_openpet.py pinchy                       # by gallery name
+python3 tools/import_openpet.py https://openpets.dev/pets/pinchy-a4ca4e12
+python3 tools/import_openpet.py wall-e --flash               # import + flash
+```
+
+Every OpenPets gallery pet ships the same 1536×1872 spritesheet (an 8×9 grid
+of 192×208 frames) with a fixed row→animation layout, so the tool slices any
+of them and maps the rows onto our seven states (e.g. the "failed" row →
+`sleep`, "jumping" → `celebrate`). It auto-writes the manifest (sampling the
+pet's body color) and a README with attribution back to the gallery. OpenPets
+is MIT-licensed; individual pets' art copyright stays with their artists, so
+keep that attribution if you redistribute a pack. `characters/pinchy/` is an
+imported example.
+
 ## The seven states
 
 | State       | Trigger                     | Feel                        |
