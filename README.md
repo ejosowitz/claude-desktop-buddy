@@ -12,9 +12,10 @@ fun little hardware devices that integrate with Claude.
 > It combines two things on top of upstream:
 >
 > 1. **M5StickS3 (ESP32-S3) support** — one codebase now runs on both the
->    original M5StickC Plus and the newer M5StickS3, via M5Unified. This is
+>    original M5StickC Plus and the newer M5StickS3, via M5Unified. The port is
 >    the work of **[yiduo (易铎)](https://github.com/yiduo)**, from upstream
->    PR [#48](https://github.com/anthropics/claude-desktop-buddy/pull/48).
+>    PR [#48](https://github.com/anthropics/claude-desktop-buddy/pull/48); this
+>    fork adds an on-hardware IMU/orientation fix on top.
 > 2. **An OpenPets pet importer** — `tools/import_openpet.py` turns any pet
 >    from the [OpenPets](https://openpets.dev) gallery into a character pack
 >    (with an optional `--flash`); `characters/pinchy/` is an imported example.
@@ -57,13 +58,15 @@ support while keeping the original StickC Plus working — see
 
 ## What this fork changes
 
-The **M5StickS3 port** described in this section — everything under Board/build,
-Bug fixes, and Behavior below — is the work of
+The **M5StickS3 port** — the M5Unified migration, the `compat.h` shim, the S3
+bug fixes, and the approval-screen redesign (everything under Board/build, Bug
+fixes, and Behavior below) — is the work of
 [yiduo (易铎)](https://github.com/yiduo), from upstream PR
 [#48](https://github.com/anthropics/claude-desktop-buddy/pull/48). It ports the
 firmware to the **M5StickS3 (ESP32-S3)** while keeping the original M5StickC
-Plus working. This fork's own addition is the
-[OpenPets importer](#importing-pets-from-openpets) further down.
+Plus working. On top of that, this fork adds an on-hardware **IMU/orientation
+fix** (see Orientation fix below) and the
+[OpenPets importer](#importing-pets-from-openpets).
 
 **Board / build**
 
@@ -96,6 +99,18 @@ Plus working. This fork's own addition is the
   Windows (a new code on every retry).
 - Approval screen redesigned: the panel sizes to its content and shows the
   tool name + command in larger, readable text.
+
+**Orientation fix (this fork)**
+
+- The S3's BMI270 is mounted rotated +90° about the screen normal and is absent
+  from M5Unified's axis fix-up table, so tilt-to-clock came out inverted —
+  holding the stick upright showed the landscape clock, laying it on its side
+  showed the portrait character. A `compatGetAccel()` helper in `src/compat.h`
+  remaps the BMI270 back into the MPU6886 frame the orientation code expects
+  (`X' = +rawY, Y' = -rawX, Z' = +rawZ`, a pure +90° rotation about Z); Z is
+  untouched so face-down nap and shake still work, and the StickC Plus path is
+  an unchanged passthrough. Root-cause writeup and on-device measurements are in
+  [this PR #48 comment](https://github.com/anthropics/claude-desktop-buddy/pull/48#issuecomment-5017949140).
 
 **Characters**
 
