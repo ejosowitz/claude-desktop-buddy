@@ -9,10 +9,12 @@ fun little hardware devices that integrate with Claude.
 
 > **This is a fork of
 > [`anthropics/claude-desktop-buddy`](https://github.com/anthropics/claude-desktop-buddy).**
-> It adds two things on top of upstream:
+> It combines two things on top of upstream:
 >
 > 1. **M5StickS3 (ESP32-S3) support** — one codebase now runs on both the
->    original M5StickC Plus and the newer M5StickS3, via M5Unified.
+>    original M5StickC Plus and the newer M5StickS3, via M5Unified. This is
+>    the work of **[yiduo (易铎)](https://github.com/yiduo)**, from upstream
+>    PR [#48](https://github.com/anthropics/claude-desktop-buddy/pull/48).
 > 2. **An OpenPets pet importer** — `tools/import_openpet.py` turns any pet
 >    from the [OpenPets](https://openpets.dev) gallery into a character pack
 >    (with an optional `--flash`); `characters/pinchy/` is an imported example.
@@ -55,8 +57,13 @@ support while keeping the original StickC Plus working — see
 
 ## What this fork changes
 
-This fork ports the firmware to the **M5StickS3 (ESP32-S3)** while keeping the
-original M5StickC Plus working.
+The **M5StickS3 port** described in this section — everything under Board/build,
+Bug fixes, and Behavior below — is the work of
+[yiduo (易铎)](https://github.com/yiduo), from upstream PR
+[#48](https://github.com/anthropics/claude-desktop-buddy/pull/48). It ports the
+firmware to the **M5StickS3 (ESP32-S3)** while keeping the original M5StickC
+Plus working. This fork's own addition is the
+[OpenPets importer](#importing-pets-from-openpets) further down.
 
 **Board / build**
 
