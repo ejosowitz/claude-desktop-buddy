@@ -7,6 +7,18 @@ been impressed by the creativity of the maker community around Claude -
 providing a lightweight, opt-in API is our way of making it easier to build
 fun little hardware devices that integrate with Claude.
 
+> **This is a fork of
+> [`anthropics/claude-desktop-buddy`](https://github.com/anthropics/claude-desktop-buddy).**
+> It adds two things on top of upstream:
+>
+> 1. **M5StickS3 (ESP32-S3) support** — one codebase now runs on both the
+>    original M5StickC Plus and the newer M5StickS3, via M5Unified.
+> 2. **An OpenPets pet importer** — `tools/import_openpet.py` turns any pet
+>    from the [OpenPets](https://openpets.dev) gallery into a character pack
+>    (with an optional `--flash`); `characters/pinchy/` is an imported example.
+>
+> Full details in [What this fork changes](#what-this-fork-changes).
+
 > **Building your own device?** You don't need any of the code here. See
 > **[REFERENCE.md](REFERENCE.md)** for the wire protocol: Nordic UART
 > Service UUIDs, JSON schemas, and the folder push transport.
@@ -77,6 +89,15 @@ original M5StickC Plus working.
   Windows (a new code on every retry).
 - Approval screen redesigned: the panel sizes to its content and shows the
   tool name + command in larger, readable text.
+
+**Characters**
+
+- New [`tools/import_openpet.py`](tools/import_openpet.py) imports any pet from
+  the [OpenPets](https://openpets.dev) gallery as a character pack — resolve a
+  name/slug/URL → download the spritesheet → slice the canonical 8×9 grid into
+  the seven states → prep, with an optional `--flash`. See
+  [Importing pets from OpenPets](#importing-pets-from-openpets).
+- Added `characters/pinchy/` as an imported example pack (a nerdy lobster).
 
 ## Flashing
 
