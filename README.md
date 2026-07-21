@@ -1,4 +1,4 @@
-# claude-desktop-buddy
+# claude-desktop-buddy-openpets
 
 Claude for macOS and Windows can connect Claude Cowork and Claude Code to
 maker devices over BLE, so developers and makers can build hardware that
