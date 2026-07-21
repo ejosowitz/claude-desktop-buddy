@@ -53,6 +53,7 @@ support while keeping the original StickC Plus working — see
 [What this fork changes](#what-this-fork-changes).
 
 <p align="center">
+  <img src="docs/buddy-openpets.jpg" alt="OpenPets Buddy" width="350"><br />
   <img src="docs/sticks3.png" alt="M5Stack M5StickS3 (ESP32-S3)" width="380">
 </p>
 
